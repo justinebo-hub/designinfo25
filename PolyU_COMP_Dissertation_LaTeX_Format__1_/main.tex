@@ -1,0 +1,56 @@
+\documentclass{polyu-comp}
+
+% Cover fields (override if needed)
+\renewcommand{\CompTitle}{Science ouverte et valorisation : mise en place du Baromètre de la Science Ouverte ASNR }
+\renewcommand{\CompStudentName}{Justine Bouwy-ounnough}
+\renewcommand{\CompDegree}{Master 1}
+\renewcommand{\CompSubmissionNote}{[Date of Submission Recommended:\\ January 2026 / May 2026 / August 2026]}
+
+% Optional: customize the bibliography subtitle text (or leave class default)
+% \renewcommand{\CompRefSubtitle}{[References used in the dissertation]}
+
+\begin{document}
+
+% Cover page
+\printCompCover
+
+% Certificate of Originality
+\section*{Certificate of Originality}
+I hereby declare that this dissertation is my own work and that, to the best of my knowledge and belief, it reproduces no material previously published or written, nor material that has been accepted for the award of any other degree or diploma, except where due acknowledgement has been made in the text.
+
+\vspace{1cm}
+Signature of the Student: \underline{\hspace{5cm}} \\[0.5cm]
+Name of the Student: \underline{\hspace{5cm}}
+
+\newpage
+\section*{Abstract}
+[Abstract of the dissertation]
+
+\newpage
+\section*{Acknowledgements}
+[Acknowledgements]
+
+\newpage
+\section*{Contents}
+[The list of contents]
+
+\newpage
+\section*{List of Figures}
+[The list of figures]
+
+\newpage
+\section*{List of Tables}
+[The list of tables]
+
+\newpage
+\section*{Chapter [chapter index]}
+[Chapter contents of the dissertation. In principle, the following chapters are needed: Introduction, Related Work, Problem Formulation, Solution, Analysis, Evaluation, and Conclusion. But for a specific dissertation, the author and the supervisor can use good discretion to adapt the exact total number, titles, and themes of chapters \cite{doi:10.1080/15623599.2025.2542912}.]
+
+\clearpage
+% -------------------- BibTeX References (unified 28pt heading and subtitle) --------------------
+\renewcommand{\bibname}{References}
+\bibliographystyle{plain}   % or alpha / apalike /  unsrt...
+\bibliography{refs}         % expects refs.bib in the same folder
+% \nocite{*}                % uncomment to print all entries in refs.bib
+
+\end{document}
