@@ -1,7 +1,7 @@
-# 🌐 Rapport de stage — M1 GSI (Paris 8)
+# 🌐 Rapport de stage - M1 GSI (Paris 8)
 
 Microsite interactif de valorisation du **rapport de stage de Justine Bouwy-Ounnough**  
-réalisé dans le cadre du **cours de Design de l’information** *(Master 1 — Gestion Stratégique de l’Information, Université Paris 8)*.
+réalisé dans le cadre du **cours de Design de l’information** *(Master 2 — Gestion Stratégique de l’Information, Université Paris 8)*.
 
 ---
 
