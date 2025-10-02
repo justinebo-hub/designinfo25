@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BSO ASNR — Rapport de stage (M1 GSI) — Justine Bouwy‑Ounnough</title>
+  <meta name="description" content="Microsite de valorisation du rapport de stage M1 GSI : Baromètre de la Science Ouverte (ASNR), comparaisons Scopus/OpenAlex/HAL, scripts Python, méthodologie et résultats clés." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body class="bg-white text-slate-800 antialiased">
+  <header class="sticky top-0 z-50 backdrop-blur bg-white/80 border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+      <button id="themeToggle" class="px-3 py-1 rounded-full border text-sm hover:bg-slate-100">☀️/🌙</button>
+      <nav class="flex-1">
+        <ul class="flex flex-wrap gap-2 text-sm">
+          <li><a class="navbtn" href="#resume">Résumé</a></li>
+          <li><a class="navbtn" href="#problematique">Problématique</a></li>
+          <li><a class="navbtn" href="#methodo">Méthodologie</a></li>
+          <li><a class="navbtn" href="#resultats">Résultats</a></li>
+          <li><a class="navbtn" href="#visualisations">Visualisations</a></li>
+          <li><a class="navbtn" href="#latex">LaTeX</a></li>
+          <li><a class="navbtn" href="#annexes">Annexes</a></li>
+        </ul>
+      </nav>
+      <a href="#" class="px-3 py-1 rounded-full bg-slate-900 text-white text-sm hover:opacity-90" id="downloadPdfBtn">Télécharger le PDF</a>
+    </div>
+  </header>
+
+  <section class="bg-gradient-to-b from-slate-50 to-white border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 py-16 grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h1 class="text-3xl md:text-5xl font-bold leading-tight">BSO ASNR — <span class="text-slate-500">Mise en place et retour d’expérience</span></h1>
+        <p class="mt-4 text-lg text-slate-600">Rapport de stage (M1 GSI, Paris 8) : construction d’un Baromètre de la Science Ouverte pour l’ASNR, comparaisons Scopus/OpenAlex/HAL, scripts Python et recommandations opérationnelles.</p>
+      </div>
+      <figure>
+        <img src="/figures/figure1_bso_selection.png" alt="Graphique BSO IRSN" class="rounded-2xl shadow"/>
+        <figcaption class="text-xs text-slate-500 mt-2">Figure 1 — Exemple issu du BSO IRSN.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="resume" class="max-w-6xl mx-auto px-4 py-12">
+    <h2 class="text-2xl md:text-3xl font-semibold">Résumé exécutif</h2>
+    <p class="mt-3 text-slate-600">Objectif : établir un BSO institutionnel pour l’ASNR (ex‑IRSN) sur 2013–2024 en consolidant des extractions Scopus, OpenAlex et HAL, puis en déposant/complétant les manquants dans HAL pour fiabiliser le taux d’Open Access.</p>
+    <div class="mt-6 grid md:grid-cols-3 gap-4">
+      <div class="p-5 rounded-2xl border">
+        <h3 class="font-medium">Contexte</h3>
+        <p class="mt-2 text-sm text-slate-600">Fusion ASN+IRSN → ASNR (2025). Au SEARCH/USNR : besoin d’un suivi fiable de la production scientifique et de l’OA. Le BSO national est utile mais partiellement opaque pour un usage interne fin.</p>
+      </div>
+      <div class="p-5 rounded-2xl border">
+        <h3 class="font-medium">Approche</h3>
+        <p class="mt-2 text-sm text-slate-600">Base maître (7092 lignes V1), croisements API (OpenAlex, HAL, Unpaywall), scripts Python ad hoc, vérifications manuelles, dépôts HAL ciblés (X2HAL + dépôts directs).</p>
+      </div>
+      <div class="p-5 rounded-2xl border">
+        <h3 class="font-medium">Impact</h3>
+        <p class="mt-2 text-sm text-slate-600">OpenAlex couvre &gt;70% des publications et révèle ~20% hors Scopus. Processus reproductible, montée en compétences Python, feuille de route OA/BSO réaliste.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="problematique" class="max-w-6xl mx-auto px-4 py-12 border-t">
+    <h2 class="text-2xl md:text-3xl font-semibold">Problématique et hypothèses</h2>
+    <details class="p-4 border rounded-xl" open>
+      <summary class="font-medium cursor-pointer">Problématique</summary>
+      <p class="mt-3">Comment fiabiliser un BSO institutionnel pour l’ASNR à partir de sources hétérogènes (Scopus, OpenAlex, HAL) en limitant le bruit (faux positifs d’affiliation) et en maximisant le dépôt OA réel ?</p>
+    </details>
+    <details class="p-4 border rounded-xl" open>
+      <summary class="font-medium cursor-pointer">Hypothèses</summary>
+      <ul class="mt-3 list-disc pl-5">
+        <li>H1 : Un pipeline « DOI‑first » (DOI, type_crossref, OA status) + curation réduit fortement le bruit vs requêtes par affiliation texte.</li>
+        <li>H2 : OpenAlex, combiné à HAL et Unpaywall, permet d’atteindre une couverture ≥ Scopus pour le périmètre ASNR, à condition de corriger typologies et affiliations.</li>
+      </ul>
+    </details>
+  </section>
+
+  <section id="methodo" class="max-w-6xl mx-auto px-4 py-12 border-t">
+    <h2 class="text-2xl md:text-3xl font-semibold">Méthodologie</h2>
+    <div class="mt-4 grid md:grid-cols-3 gap-4">
+      <article class="p-5 border rounded-2xl">
+        <h3 class="font-medium">Design</h3>
+        <p class="mt-2 text-sm text-slate-600">Constitution d’une base maître (2013–2024). Dédoublonnage par DOI, contrôle typologies (préférer type_crossref), priorisation articles/chapitres/communications.</p>
+      </article>
+      <article class="p-5 border rounded-2xl">
+        <h3 class="font-medium">Collecte</h3>
+        <p class="mt-2 text-sm text-slate-600">APIs OpenAlex/Scopus/HAL, ajout OA/licence via Unpaywall, normalisation des champs pour X2HAL.</p>
+      </article>
+      <article class="p-5 border rounded-2xl">
+        <h3 class="font-medium">Analyse</h3>
+        <p class="mt-2 text-sm text-slate-600">Croisements, vérifs manuelles, dépôts HAL, reporting intermédiaire (2013, 2023, 2024) en vue BSO.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="resultats" class="max-w-6xl mx-auto px-4 py-12 border-t">
+    <h2 class="text-2xl md:text-3xl font-semibold">Résultats clés</h2>
+    <div class="mt-6 grid md:grid-cols-2 gap-6">
+      <div class="p-5 border rounded-2xl">
+        <h3 class="font-medium">Couverture & apports</h3>
+        <ul class="mt-2 text-sm text-slate-600 list-disc pl-5">
+          <li>Base V1 : 7092 lignes (2013–2024). DOI uniques : 1713 ; doublons : 4620 ; triplons : 9 ; sans DOI : 750.</li>
+          <li>OpenAlex couvre &gt;70% et remonte ~20% non présentes dans Scopus.</li>
+          <li>Scripts : enrichissement HAL id / OA / APC, matching DOI→HAL, extraction OpenAlex par lot.</li>
+        </ul>
+      </div>
+      <div class="p-5 border rounded-2xl">
+        <h3 class="font-medium">Points de vigilance</h3>
+        <ul class="mt-2 text-sm text-slate-600 list-disc pl-5">
+          <li>BSO : indicateurs utiles mais peu transparents → ne pas l’utiliser comme seule référence interne.</li>
+          <li>Affiliations : requêtes texte = bruit → préférer DOI + contrôles (idHAL/ORCID/ROR).</li>
+          <li>Typologies : éviter attribut type OpenAlex, privilégier type_crossref.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="visualisations" class="max-w-6xl mx-auto px-4 py-12 border-t">
+    <h2 class="text-2xl md:text-3xl font-semibold">Galerie de figures</h2>
+    <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <figure class="group border rounded-xl overflow-hidden cursor-zoom-in" data-img="/figures/figure2_methodo_mindmap.png" data-caption="Figure 2 — Mindmap méthodologie">
+        <img src="/figures/figure2_methodo_mindmap.png" alt="Mindmap méthodologie" class="w-full aspect-video object-cover"/>
+        <figcaption class="p-3 text-sm text-slate-600">Figure 2 — Méthodologie</figcaption>
+      </figure>
+      <figure class="group border rounded-xl overflow-hidden cursor-zoom-in" data-img="/figures/figure7_comparatif_metas.png" data-caption="Figure 7 — Comparatif Scopus/OpenAlex/HAL">
+        <img src="/figures/figure7_comparatif_metas.png" alt="Comparatif métadonnées" class="w-full aspect-video object-cover"/>
+        <figcaption class="p-3 text-sm text-slate-600">Figure 7 — Comparatif métadonnées</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="latex" class="max-w-6xl mx-auto px-4 py-12 border-t">
+    <h2 class="text-2xl md:text-3xl font-semibold">Formules & pseudo-code (LaTeX)</h2>
+    <p class="mt-3 text-slate-600">Exemple : mesure d’OA et F1‑score.</p>
+    <div class="mt-4 p-5 border rounded-2xl bg-slate-50 overflow-x-auto">
+      $$\\text{Taux OA} = \\frac{\\# OA}{\\# total} \\times 100\\% \qquad \\text{F1} = 2 \\cdot \\frac{PR \\cdot RC}{PR+RC}$$
+      <pre class="mt-4 text-sm"><code>// Dédoublonnage par DOI
+for row in base:
+  group = groupby(row.DOI)
+  if len(group) > 1:
+    keep = prefer('Scopus', else_if='OpenAlex')
+    merge_metadata(keep, group)
+  else:
+    keep = row
+append(keep)</code></pre>
+    </div>
+  </section>
+
+  <section id="annexes" class="max-w-6xl mx-auto px-4 py-12 border-t">
+    <h2 class="text-2xl md:text-3xl font-semibold">Annexes & téléchargements</h2>
+    <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <a href="/files/rapport_stage_BO.pdf" class="annexe">
+        <div class="p-5 h-full border rounded-2xl">
+          <h3 class="font-medium">PDF du rapport (M1 GSI)</h3>
+          <p class="mt-2 text-sm text-slate-600">Version imprimable (pagination, renvois, bib.).</p>
+        </div>
+      </a>
+      <a href="/files/data_scripts.zip" class="annexe">
+        <div class="p-5 h-full border rounded-2xl">
+          <h3 class="font-medium">Données & scripts</h3>
+          <p class="mt-2 text-sm text-slate-600">CSV + notebooks + README (repro).</p>
+        </div>
+      </a>
+      <a href="/files/bibliographie.bib" class="annexe">
+        <div class="p-5 h-full border rounded-2xl">
+          <h3 class="font-medium">Bibliographie (.bib)</h3>
+          <p class="mt-2 text-sm text-slate-600">Fichier BibLaTeX + style unique.</p>
+        </div>
+      </a>
+    </div>
+    <div class="mt-6 text-sm text-slate-500">
+      <a class="underline" href="https://asnr.hal.science/" target="_blank">Portail HAL ASNR</a> ·
+      <a class="underline" href="https://barometredelascienceouverte.esr.gouv.fr/" target="_blank">BSO national</a>
+    </div>
+  </section>
+
+  <footer class="border-t">
+    <div class="max-w-6xl mx-auto px-4 py-10 text-sm text-slate-500">
+      <p>© 2025 — Rapport de stage M1 GSI — Justine Bouwy‑Ounnough.</p>
+    </div>
+  </footer>
+</body>
+</html>
