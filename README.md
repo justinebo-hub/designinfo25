@@ -1,4 +1,4 @@
-! Site encore en construction !
+**⚠️ Site encore en construction ⚠️**
 
 # 🌐 Rapport de stage - M1 GSI (Paris 8)
 
