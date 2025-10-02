@@ -6,9 +6,9 @@ réalisé dans le cadre du **cours de Design de l’information** *(Master 2 —
 ---
 
 ## 🎯 Objectif du site
-- Présenter de façon **claire et visuelle** mon travail de stage.  
-- Expérimenter l’usage de **design informationnel**, d’HTML/Tailwind, de **LaTeX pour les formules**, et d’éléments interactifs (galerie, bouton retour haut, annexes téléchargeables).  
-- Démontrer une mise en page web **professionnelle et reproductible** pour tout projet de recherche ou rapport scientifique.
+- Présenter de façon **claire et visuelle** le travail que j'ai effectué lors de mon alternance de master 1.  
+- Expérimenter l’usage de **design informationnel**, d’HTML, de **LaTeX pour les formules**, et d’éléments interactifs (galerie, bouton retour haut, annexes téléchargeables).  
+- Mettre en place une mise en page web **professionnelle et reproductible** pour tout projet de recherche ou rapport scientifique.
 
 ---
 
