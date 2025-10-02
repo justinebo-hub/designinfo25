@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BSO ASNR — Rapport de stage (M1 GSI) — Justine Bouwy-Ounnough</title>
+  <title>Rapport de stage (M1 GSI) — Justine Bouwy-Ounnough</title>
   <meta name="description" content="Microsite de valorisation du rapport de stage M1 GSI : Baromètre de la Science Ouverte (ASNR), comparaisons Scopus/OpenAlex/HAL, scripts Python, méthodologie et résultats clés." />
 
   <!-- ======================= CSS & LIBS ======================= -->
@@ -15,6 +15,9 @@
     };
   </script>
   <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <!-- ======================= FAVICON (placez files/favicon.png) ======================= -->
+  <link rel="icon" type="image/png" href="files/favicon.png" />
 </head>
 <body class="bg-white text-slate-800 antialiased">
 
@@ -25,7 +28,7 @@
       <nav class="flex-1">
         <ul class="flex flex-wrap gap-2 text-sm">
           <li><a class="navbtn" href="#resume">Résumé</a></li>
-          <li><a class="navbtn" href="#problematique">Problématique</a></li>
+          <li><a class="navbtn" href="#problematique">Table des matières</a></li>
           <li><a class="navbtn" href="#methodo">Méthodologie</a></li>
           <li><a class="navbtn" href="#resultats">Résultats</a></li>
           <li><a class="navbtn" href="#visualisations">Visualisations</a></li>
@@ -33,7 +36,7 @@
           <li><a class="navbtn" href="#annexes">Annexes</a></li>
         </ul>
       </nav>
-      <a href="#" class="px-3 py-1 rounded-full bg-slate-900 text-white text-sm hover:opacity-90" id="downloadPdfBtn">Télécharger le PDF</a>
+      <a href="files/rapport_stage_BO.pdf" class="px-3 py-1 rounded-full bg-slate-900 text-white text-sm hover:opacity-90" id="downloadPdfBtn">Télécharger le PDF</a>
     </div>
   </header>
 
@@ -45,7 +48,7 @@
         <p class="mt-4 text-lg text-slate-600">Rapport de stage (M1 GSI, Paris 8) : construction d’un Baromètre de la Science Ouverte pour l’ASNR, comparaisons Scopus/OpenAlex/HAL, scripts Python et recommandations opérationnelles.</p>
       </div>
       <figure>
-        <img src="/figures/figure1_bso_selection.png" alt="Graphique BSO IRSN" class="rounded-2xl shadow"/>
+        <img src="figures/figure1_bso_selection.png" alt="Graphique BSO IRSN" class="rounded-2xl shadow"/>
         <figcaption class="text-xs text-slate-500 mt-2">Figure 1 — Exemple issu du BSO IRSN.</figcaption>
       </figure>
     </div>
@@ -79,20 +82,60 @@
       <summary class="font-medium cursor-pointer">Problématique</summary>
       <p class="mt-3">Comment fiabiliser un BSO institutionnel pour l’ASNR à partir de sources hétérogènes (Scopus, OpenAlex, HAL) en limitant le bruit et en maximisant le dépôt OA réel ?</p>
     </details>
+
     <details class="p-4 border rounded-xl" open>
       <summary class="font-medium cursor-pointer">Table des matières</summary>
-      <ul class="mt-3 list-disc pl-5">
-        <li>Première partie : Définir le cadre de la mission</li>
-        <li>Seconde partie : Construire le BSO IRSN</li>
-        <li>Troisième partie : Réflexion apportée</li>
-        <li>Conclusion, Glossaire, Acronymes, Bibliographie, Annexes</li>
+      <!-- Liste proprement imbriquée (liens à compléter avec des sections id=... correspondantes) -->
+      <ul class="toc list-disc pl-6 space-y-1 text-slate-700">
+        <li><a href="#search" class="toc-link">Le SEARCH : au cœur de la valorisation des connaissances</a></li>
+        <li>Le BSO : mesurer l’évolution de la science ouverte en France
+          <ul class="list-[square] pl-6 space-y-1">
+            <li><a href="#oa-importance" class="toc-link">Importance de l’Open Access</a></li>
+            <li><a href="#bso-presentation" class="toc-link">Présentation du Baromètre de la Science Ouverte</a></li>
+          </ul>
+        </li>
+        <li>La note d’étonnement
+          <ul class="list-[square] pl-6 space-y-1">
+            <li><a href="#note-contexte" class="toc-link">Contexte de la note d’étonnement</a></li>
+            <li><a href="#note-bilan" class="toc-link">Bilan de la note d’étonnement</a></li>
+          </ul>
+        </li>
+        <li>Seconde partie : construire le BSO IRSN
+          <ul class="list-[circle] pl-6 space-y-1">
+            <li><a href="#methodologie" class="toc-link">Méthodologie adoptée</a></li>
+            <li>OpenAlex
+              <ul class="list-[square] pl-6 space-y-1">
+                <li><a href="#openalex-presentation" class="toc-link">Présentation d’OpenAlex</a></li>
+                <li><a href="#openalex-prise-en-main" class="toc-link">Prise en main d’OpenAlex</a></li>
+                <li><a href="#openalex-fiabilite" class="toc-link">Fiabilité d’OpenAlex</a></li>
+              </ul>
+            </li>
+            <li><a href="#scripts-python" class="toc-link">Scripts Python</a></li>
+            <li><a href="#base-reference" class="toc-link">Base de données de référence</a></li>
+          </ul>
+        </li>
+        <li>Troisième partie : réflexion apportée
+          <ul class="list-[circle] pl-6 space-y-1">
+            <li><a href="#reflexion-contexte" class="toc-link">Contextualisation</a></li>
+            <li><a href="#reflexion-demarche" class="toc-link">Réflexion et démarche</a></li>
+            <li><a href="#ia-note" class="toc-link">Note sur les usages de l’IA</a></li>
+            <li><a href="#ia-usages" class="toc-link">Usages de l’IAG dans le rapport</a></li>
+            <li><a href="#outils-objectifs" class="toc-link">Outils mobilisés et objectifs</a></li>
+            <li><a href="#retour-experience-iag" class="toc-link">Retour d’expérience</a></li>
+          </ul>
+        </li>
+        <li><a href="#conclusion" class="toc-link">Conclusion</a></li>
+        <li><a href="#glossaire" class="toc-link">Glossaire</a></li>
+        <li><a href="#acronymes" class="toc-link">Acronymes</a></li>
+        <li><a href="#bibliographie" class="toc-link">Bibliographie</a></li>
+        <li><a href="#annexes" class="toc-link">Annexes</a></li>
       </ul>
     </details>
   </section>
 
   <!-- ======================= METHODOLOGIE ======================= -->
   <section id="methodo" class="max-w-6xl mx-auto px-4 py-12 border-t">
-    <h2 class="text-2xl md:text-3xl font-semibold">Méthodologie</h2>
+    <h2 id="methodologie" class="text-2xl md:text-3xl font-semibold">Méthodologie</h2>
     <div class="mt-4 grid md:grid-cols-3 gap-4">
       <!-- Trois colonnes méthodo -->
       <article class="p-5 border rounded-2xl">
@@ -139,12 +182,12 @@
   <section id="visualisations" class="max-w-6xl mx-auto px-4 py-12 border-t">
     <h2 class="text-2xl md:text-3xl font-semibold">Galerie de figures</h2>
     <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      <figure class="group border rounded-xl overflow-hidden cursor-zoom-in" data-img="/figures/figure2_methodo_mindmap.png" data-caption="Figure 2 — Mindmap méthodologie">
-        <img src="/figures/figure2_methodo_mindmap.png" alt="Mindmap méthodologie" class="w-full aspect-video object-cover"/>
+      <figure class="group border rounded-xl overflow-hidden cursor-zoom-in" data-img="figures/figure2_methodo_mindmap.png" data-caption="Figure 2 — Mindmap méthodologie">
+        <img src="figures/figure2_methodo_mindmap.png" alt="Mindmap méthodologie" class="w-full aspect-video object-cover"/>
         <figcaption class="p-3 text-sm text-slate-600">Figure 2 — Méthodologie</figcaption>
       </figure>
-      <figure class="group border rounded-xl overflow-hidden cursor-zoom-in" data-img="/figures/figure7_comparatif_metas.png" data-caption="Figure 7 — Comparatif Scopus/OpenAlex/HAL">
-        <img src="/figures/figure7_comparatif_metas.png" alt="Comparatif métadonnées" class="w-full aspect-video object-cover"/>
+      <figure class="group border rounded-xl overflow-hidden cursor-zoom-in" data-img="figures/figure7_comparatif_metas.png" data-caption="Figure 7 — Comparatif Scopus/OpenAlex/HAL">
+        <img src="figures/figure7_comparatif_metas.png" alt="Comparatif métadonnées" class="w-full aspect-video object-cover"/>
         <figcaption class="p-3 text-sm text-slate-600">Figure 7 — Comparatif métadonnées</figcaption>
       </figure>
     </div>
@@ -155,7 +198,7 @@
     <h2 class="text-2xl md:text-3xl font-semibold">Formules & pseudo-code (LaTeX)</h2>
     <p class="mt-3 text-slate-600">Exemple : mesure d’OA et F1-score.</p>
     <div class="mt-4 p-5 border rounded-2xl bg-slate-50 overflow-x-auto">
-      $$\\text{Taux OA} = \\frac{\\# OA}{\\# total} \\times 100\\% \qquad \\text{F1} = 2 \\cdot \\frac{PR \\cdot RC}{PR+RC}$$
+      $$\\text{Taux OA} = \\frac{\\# OA}{\\# total} \\times 100\\% \\\qquad \\text{F1} = 2 \\\cdot \\\frac{PR \\\cdot RC}{PR+RC}$$
       <pre class="mt-4 text-sm"><code>// Dédoublonnage par DOI
 for row in base:
   group = groupby(row.DOI)
@@ -172,17 +215,17 @@ append(keep)</code></pre>
   <section id="annexes" class="max-w-6xl mx-auto px-4 py-12 border-t">
     <h2 class="text-2xl md:text-3xl font-semibold">Annexes & téléchargements</h2>
     <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      <a href="/rapport_M1/files/M1%20GSI_Rapport%20de%20stage_JustineBOUWYOUNNOUGH.pdf" class="annexe">
+      <a href="files/rapport_stage_BO.pdf" class="annexe">
         <div class="p-5 h-full border rounded-2xl">
           <h3 class="font-medium">PDF du rapport (M1 GSI)</h3>
         </div>
       </a>
-      <a href="/files/data_scripts.zip" class="annexe">
+      <a href="files/data_scripts.zip" class="annexe">
         <div class="p-5 h-full border rounded-2xl">
           <h3 class="font-medium">Données & scripts</h3>
         </div>
       </a>
-      <a href="/files/bibliographie.bib" class="annexe">
+      <a href="files/bibliographie.bib" class="annexe">
         <div class="p-5 h-full border rounded-2xl">
           <h3 class="font-medium">Bibliographie (.bib)</h3>
         </div>
