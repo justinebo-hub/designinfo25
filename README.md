@@ -1,5 +1,3 @@
-**⚠️ Site encore en construction ⚠️**
-
 # 🌐 Rapport de stage - M1 GSI (Paris 8)
 
 Microsite interactif de valorisation du **rapport de stage de Justine Bouwy-Ounnough**  
