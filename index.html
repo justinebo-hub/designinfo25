@@ -383,7 +383,7 @@ score_metadata(r) = w1*has_crossref_type(r) + w2*completeness(r) + w3*source_pri
       <p>© 2025 — Rapport de stage M1 GSI — Justine Bouwy-Ounnough.</p>
     </div>
   </footer>
-  
+
 <!-- Lightbox / pop-up d’image -->
 <div id="lightbox"
      class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/70 p-4"
@@ -411,7 +411,44 @@ score_metadata(r) = w1*has_crossref_type(r) + w2*completeness(r) + w3*source_pri
 
   <!-- ======================= SCRIPTS ======================= -->
   <script>
-    // Toggle clair/sombre avec persistance
+   
+    // ===== Lightbox (Galerie de figures) =====
+  const lightbox = document.getElementById('lightbox');
+  const lbImg    = document.getElementById('lightboxImg');
+  const lbCap    = document.getElementById('lightboxCap');
+  const lbClose  = document.getElementById('lightboxClose');
+
+  function openLightbox(src, alt, cap){
+    lbImg.src = src || '';
+    lbImg.alt = alt || '';
+    lbCap.textContent = cap || '';
+    lightbox.classList.remove('hidden'); lightbox.classList.add('flex');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden'; // bloque le scroll en arrière-plan
+  }
+
+  function closeLightbox(){
+    lightbox.classList.add('hidden'); lightbox.classList.remove('flex');
+    lightbox.setAttribute('aria-hidden', 'true');
+    lbImg.src = '';
+    document.body.style.overflow = '';
+  }
+
+  // Ouvrir en cliquant sur une figure de la galerie
+  document.querySelectorAll('#visualisations figure').forEach(fig => {
+    fig.addEventListener('click', () => {
+      const full = fig.dataset.full || fig.querySelector('img')?.src;
+      const alt  = fig.querySelector('img')?.alt || '';
+      const cap  = fig.dataset.caption || fig.querySelector('figcaption')?.textContent || '';
+      openLightbox(full, alt, cap);
+    });
+  });
+
+  // Fermer (bouton, clic fond, touche Échap)
+  lbClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) closeLightbox(); });
+   // Toggle clair/sombre avec persistance
     const themeToggle = document.getElementById('themeToggle');
     themeToggle?.addEventListener('click', () => {
       const root = document.documentElement;
