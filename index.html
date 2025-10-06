@@ -4,28 +4,39 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Rapport de stage (M1 GSI) — Justine Bouwy-Ounnough</title>
-  <meta name="description" content="Microsite de valorisation du rapport de stage M1 GSI : Baromètre de la Science Ouverte (ASNR), comparaisons Scopus/OpenAlex/HAL, scripts Python, méthodologie et résultats clés." />
+  <meta name="description" content="Microsite de valorisation du rapport de stage M1 GSI : Baromètre de la Science Ouverte (ASNR)" />
 
   <!-- ======================= CSS & LIBS ======================= -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // Activer le mode sombre via la classe "dark"
-    tailwind.config = { darkMode: 'class' };
-  </script>
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      svg: { fontCache: 'global' }
+    // Tailwind: dark mode + palette brand/accent
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50:'#EEF2FF',100:'#E0E7FF',200:'#C7D2FE',300:'#A5B4FC',
+              400:'#818CF8',500:'#6366F1',600:'#4F46E5',700:'#1E3A8A',
+              800:'#1E3A8A',900:'#172554'
+            },
+            accent: {
+              50:'#FFF1ED',100:'#FFD9D2',200:'#FFB5A6',300:'#FF907F',
+              400:'#FF735F',500:'#F85E49',600:'#E1493A',700:'#BF3A2F',
+              800:'#9F3028',900:'#7F261F'
+            }
+          }
+        }
+      }
     };
   </script>
-  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
-  <!-- ======================= FAVICON (placez files/favicon.png) ======================= -->
+  <!-- ======================= FAVICON ======================= -->
   <link rel="icon" type="image/png" href="files/favicon.png" />
 
   <!-- ======================= THEME PREF (évite le flash) ======================= -->
   <script>
-    (function() {
+    (function () {
       const stored = localStorage.getItem('theme');
       const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
       if (stored === 'dark' || (!stored && prefersDark)) {
@@ -33,70 +44,127 @@
       }
     })();
   </script>
+
+  <!-- ======================= MATHJAX (option C: scoping) ======================= -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        tags: 'ams',
+        macros: { OA:'\\mathrm{OA}', HAL:'\\mathrm{HAL}', Scopus:'\\mathrm{Scopus}', OpenAlex:'\\mathrm{OpenAlex}' }
+      },
+      options: {
+        enableAssistiveMml: true,
+        ignoreHtmlClass: '.*',               // ignore tout...
+        processHtmlClass: 'mathjax-process', // ...sauf ce qui a cette classe
+        skipHtmlTags: ['script','style','noscript','textarea','pre','code','a']
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <!-- ======================= HARMONISATION MATHJAX + STYLES DEMANDÉS ======================= -->
+  <style>
+    /* Harmonisation MathJax avec le thème */
+    mjx-container[jax="SVG"]{color:inherit}
+    mjx-container[jax="SVG"] svg{fill:currentColor;stroke:currentColor}
+    mjx-container[display="true"]{margin:0.5rem 0}
+
+    /* ==== Tes ajouts graphiques (scopés au contenu) ==== */
+   
+     #content p{
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;          /* coupure de mots pour éviter les “rivières” */
+  }
+    #content h3{
+      font-weight:700;          /* gras */
+      color:#FF735F;            /* corail */
+    }
+    #content details > summary{
+      font-weight:700;          /* gras */
+      color:#FF735F;            /* corail */
+    }
+    #content li{
+      color:#1d698f;            /* bleu clair pour les items de liste */
+    }
+    #content ul{
+      color:#000000;            /* bleu clair pour les items de liste */
+    } 
+    /* les liens dans les listes héritent de la couleur */
+    #content li > a{ color: inherit; }
+  </style>
 </head>
+
 <body class="bg-white text-slate-800 antialiased dark:bg-slate-900 dark:text-slate-100">
 
   <!-- ======================= HEADER ======================= -->
   <header class="sticky top-0 z-50 backdrop-blur bg-white/80 border-b border-slate-200 dark:bg-slate-900/80 dark:border-slate-700">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
-      <button id="themeToggle" class="px-3 py-1 rounded-full border text-sm transition-colors hover:bg-blue-50 hover:border-blue-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:border-blue-500" aria-label="Basculer clair/sombre">☀️/🌙</button>
+      <button id="themeToggle" class="px-3 py-1 rounded-full border text-sm transition-colors hover:bg-brand-50 hover:border-brand-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:border-brand-400" aria-label="Basculer clair/sombre">☀️/🌙</button>
       <nav class="flex-1">
         <ul class="flex flex-wrap gap-2 text-sm">
-          <li><a class="navbtn px-3 py-1 rounded-full border transition-colors hover:bg-blue-50 hover:border-blue-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:border-blue-500" href="#resume">Résumé</a></li>
-          <li><a class="navbtn px-3 py-1 rounded-full border transition-colors hover:bg-blue-50 hover:border-blue-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:border-blue-500" href="#problematique">Table des matières</a></li>
-          <li><a class="navbtn px-3 py-1 rounded-full border transition-colors hover:bg-blue-50 hover:border-blue-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:border-blue-500" href="#methodo">Méthodologie</a></li>
-          <li><a class="navbtn px-3 py-1 rounded-full border transition-colors hover:bg-blue-50 hover:border-blue-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:border-blue-500" href="#resultats">Résultats</a></li>
-          <li><a class="navbtn px-3 py-1 rounded-full border transition-colors hover:bg-blue-50 hover:border-blue-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:border-blue-500" href="#visualisations">Visualisations</a></li>
-          <li><a class="navbtn px-3 py-1 rounded-full border transition-colors hover:bg-blue-50 hover:border-blue-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:border-blue-500" href="#latex">LaTeX</a></li>
-          <li><a class="navbtn px-3 py-1 rounded-full border transition-colors hover:bg-blue-50 hover:border-blue-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:border-blue-500" href="#annexes">Annexes</a></li>
+          <li><a class="navbtn px-3 py-1 rounded-full border transition-colors hover:bg-brand-50 hover:border-brand-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:border-brand-400" href="#resume">Résumé</a></li>
+          <li><a class="navbtn px-3 py-1 rounded-full border transition-colors hover:bg-brand-50 hover:border-brand-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:border-brand-400" href="#problematique">Table des matières</a></li>
+          <li><a class="navbtn px-3 py-1 rounded-full border transition-colors hover:bg-brand-50 hover:border-brand-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:border-brand-400" href="#methodo">Méthodologie</a></li>
+          <li><a class="navbtn px-3 py-1 rounded-full border transition-colors hover:bg-brand-50 hover:border-brand-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:border-brand-400" href="#resultats">Résultats</a></li>
+          <li><a class="navbtn px-3 py-1 rounded-full border transition-colors hover:bg-brand-50 hover:border-brand-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:border-brand-400" href="#visualisations">Visualisations</a></li>
+          <li><a class="navbtn px-3 py-1 rounded-full border transition-colors hover:bg-brand-50 hover:border-brand-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:border-brand-400" href="#latex">LaTeX</a></li>
+          <li><a class="navbtn px-3 py-1 rounded-full border transition-colors hover:bg-brand-50 hover:border-brand-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:border-brand-400" href="#annexes">Annexes</a></li>
         </ul>
       </nav>
-      <a href="files/rapport_stage_BO.pdf" class="px-3 py-1 rounded-full bg-slate-900 text-white text-sm transition-colors hover:bg-blue-600 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-blue-300" id="downloadPdfBtn">Télécharger le PDF</a>
+      <a href="files/rapport_stage_BO.pdf" class="px-3 py-1 rounded-full bg-brand-700 text-white text-sm transition-colors hover:bg-brand-600 dark:bg-brand-300 dark:text-slate-900 dark:hover:bg-brand-200" id="downloadPdfBtn">Télécharger le PDF</a>
     </div>
   </header>
 
-  <!-- ======================= HERO / INTRODUCTION ======================= -->
-  <section class="bg-gradient-to-b from-slate-50 to-white border-b border-slate-200 dark:from-slate-900 dark:to-slate-900 dark:border-slate-700">
-    <div class="max-w-6xl mx-auto px-4 py-16 grid md:grid-cols-2 gap-8 items-center">
-      <div>
-        <h1 class="text-3xl md:text-5xl font-bold leading-tight">BSO ASNR — <span class="text-slate-500 dark:text-slate-300">Mise en place et retour d’expérience</span></h1>
-        <p class="mt-4 text-lg text-slate-600 dark:text-slate-300">Rapport de stage (M1 GSI, Paris 8) : construction d’un Baromètre de la Science Ouverte pour l’ASNR, comparaisons Scopus/OpenAlex/HAL, scripts Python et recommandations opérationnelles.</p>
+  <!-- ========= CONTENU (scopé) : TOUT ce qui suit jusqu'au footer est dans #content ========= -->
+  <main id="content">
+    <!-- ======================= HERO ======================= -->
+    <section class="bg-gradient-to-b from-slate-50 to-white border-b border-slate-200 dark:from-slate-900 dark:to-slate-900 dark:border-slate-700">
+      <div class="max-w-6xl mx-auto px-4 py-16 grid md:grid-cols-2 gap-8 items-center">
+        <div>
+          <h1 class="text-3xl md:text-5xl font-bold leading-tight">BSO ASNR — <span class="text-brand-800 dark:text-brand-200">Mise en place et retour d’expérience</span></h1>
+          <p class="mt-4 text-lg text-slate-600 dark:text-slate-300">Rapport de stage (M1 GSI, Paris 8) : construction d’un Baromètre de la Science Ouverte pour l’ASNR.</p>
+        </div>
+        <figure>
+          <img src="figures/figure1_bso_selection.png" alt="Graphique BSO IRSN" class="rounded-2xl shadow"/>
+          <figcaption class="text-xs text-slate-500 dark:text-slate-400 mt-2">Figure 1 — Exemple issu du BSO IRSN.</figcaption>
+        </figure>
       </div>
-      <figure>
-        <img src="figures/figure1_bso_selection.png" alt="Graphique BSO IRSN" class="rounded-2xl shadow"/>
-        <figcaption class="text-xs text-slate-500 dark:text-slate-400 mt-2">Figure 1 — Exemple issu du BSO IRSN.</figcaption>
-      </figure>
-    </div>
-  </section>
+    </section>
 
-  <!-- ======================= RESUME ======================= -->
-  <section id="resume" class="max-w-6xl mx-auto px-4 py-12 border-t dark:border-slate-700">
-    <h2 class="text-2xl md:text-3xl font-semibold">Résumé exécutif</h2>
-    <p class="mt-3 text-slate-600 dark:text-slate-300">Objectif : établir un BSO institutionnel pour l’ASNR (ex-IRSN) sur 2013–2024 en consolidant des extractions Scopus, OpenAlex et HAL, puis en déposant/complétant les manquants dans HAL pour fiabiliser le taux d’Open Access.</p>
-    <div class="mt-6 grid md:grid-cols-3 gap-4">
-      <!-- Cartes Résumé -->
-      <div class="p-5 rounded-2xl border dark:border-slate-700">
-        <h3 class="font-medium">Contexte</h3>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Fusion ASN+IRSN → ASNR (2025). Au SEARCH/USNR : besoin d’un suivi fiable de la production scientifique et de l’OA.</p>
+    <!-- ======================= RESUME ======================= -->
+    <section id="resume" class="max-w-6xl mx-auto px-4 py-12 border-t dark:border-slate-700">
+      <h2 class="text-2xl md:text-3xl font-semibold text-brand-800 dark:text-brand-200">Résumé</h2>
+    <p class="mt-3 text-slate-600 dark:text-slate-300">
+      Mon travail à l’ASNR s’inscrit dans la continuité d’initiatives antérieures autour de la science ouverte (constitution d’une base de thèses et mise en place d’une collection HAL IRSN), avec un objectif désormais central : concevoir et déployer un Baromètre de la Science Ouverte (BSO) institutionnel.
+      Le BSO constitue un outil de pilotage : il consolide des sources hétérogènes (Scopus, OpenAlex, HAL), clarifie les périmètres (DOI vs DOI ∪ idHAL), fiabilise les indicateurs (taux d’OA, couverture des bases, apports marginaux) et documente les choix méthodologiques (dédoublonnage “DOI-first”, contrôle du bruit d’affiliation, traçabilité des transformations). Il permet ainsi d’objectiver la performance de l’établissement en matière d’accès ouvert, de prioriser les actions (dépôts, corrections de métadonnées) et de soutenir la décision dans un contexte de forte exigence de transparence.
+      Le rapport présente d’abord le cadre (ASNR et périmètre d’analyse), puis la méthodologie et les résultats du BSO, avant d’ouvrir sur une analyse critique des points sensibles observés (définition des dénominateurs, qualité des correspondances d’affiliation, reproductibilité des traitements). Cette approche vise à offrir un dispositif robuste, réutilisable et aligné avec les exigences de la science ouverte.
+    </p>
+      <div class="mt-6 grid md:grid-cols-3 gap-4">
+        <article class="p-5 rounded-2xl border dark:border-slate-700">
+          <h3>Contexte</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Fusion ASN+IRSN → ASNR (2025)...</p>
+        </article>
+        <article class="p-5 rounded-2xl border dark:border-slate-700">
+          <h3>Approche</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Base maître, croisements API...</p>
+        </article>
+        <article class="p-5 rounded-2xl border dark:border-slate-700">
+          <h3>Impact</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">OpenAlex couvre &gt;70%...</p>
+        </article>
       </div>
-      <div class="p-5 rounded-2xl border dark:border-slate-700">
-        <h3 class="font-medium">Approche</h3>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Base maître, croisements API, scripts Python, vérifs manuelles, dépôts HAL ciblés.</p>
-      </div>
-      <div class="p-5 rounded-2xl border dark:border-slate-700">
-        <h3 class="font-medium">Impact</h3>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">OpenAlex couvre &gt;70% ; processus reproductible ; feuille de route OA/BSO.</p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ======================= PROBLEMATIQUE / TOC ======================= -->
-  <section id="problematique" class="max-w-6xl mx-auto px-4 py-12 border-t dark:border-slate-700">
-    <h2 class="text-2xl md:text-3xl font-semibold">Problématique et table des matières</h2>
-    <details class="p-4 border rounded-xl dark:border-slate-700" open>
-      <summary class="font-medium cursor-pointer">Problématique</summary>
-      <p class="mt-3">Comment fiabiliser un BSO institutionnel pour l’ASNR à partir de sources hétérogènes (Scopus, OpenAlex, HAL) en limitant le bruit et en maximisant le dépôt OA réel ?</p>
-    </details>
+    <!-- ======================= PROBLEMATIQUE / TOC ======================= -->
+    <section id="problematique" class="max-w-6xl mx-auto px-4 py-12 border-t dark:border-slate-700">
+      <h2 class="text-2xl md:text-3xl font-semibold text-brand-800 dark:text-brand-200">Problématique et table des matières</h2>
+      <details class="p-4 border rounded-xl dark:border-slate-700" open>
+        <summary>Problématique</summary>
+ <p class="mt-3">Comment fiabiliser un BSO institutionnel pour l’ASNR à partir de sources hétérogènes comme Scopus, OpenAlex et HAL en limitant le bruit et en maximisant le dépôt OA réel ?</p>
+      </details>
 
     <details class="p-4 border rounded-xl dark:border-slate-700" open>
       <summary class="font-medium cursor-pointer">Table des matières</summary>
@@ -145,104 +213,169 @@
         <li><a href="#annexes" class="toc-link">Annexes</a></li>
       </ul>
     </details>
-  </section>
+    </section>
 
-  <!-- ======================= METHODOLOGIE ======================= -->
-  <section id="methodo" class="max-w-6xl mx-auto px-4 py-12 border-t dark:border-slate-700">
-    <h2 id="methodologie" class="text-2xl md:text-3xl font-semibold">Méthodologie</h2>
-    <div class="mt-4 grid md:grid-cols-3 gap-4">
-      <article class="p-5 border rounded-2xl dark:border-slate-700">
-        <h3 class="font-medium">Design</h3>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Constitution d’une base maître, dédoublonnage par DOI, contrôle typologies.</p>
-      </article>
-      <article class="p-5 border rounded-2xl dark:border-slate-700">
-        <h3 class="font-medium">Collecte</h3>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">APIs OpenAlex/Scopus/HAL, ajout OA/licence via Unpaywall.</p>
-      </article>
-      <article class="p-5 border rounded-2xl dark:border-slate-700">
-        <h3 class="font-medium">Analyse</h3>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Croisements, vérifs manuelles, dépôts HAL, reporting intermédiaire.</p>
-      </article>
-    </div>
-  </section>
-
-  <!-- ======================= RESULTATS ======================= -->
-  <section id="resultats" class="max-w-6xl mx-auto px-4 py-12 border-t dark:border-slate-700">
-    <h2 class="text-2xl md:text-3xl font-semibold">Résultats clés</h2>
-    <div class="mt-6 grid md:grid-cols-2 gap-6">
-      <div class="p-5 border rounded-2xl dark:border-slate-700">
-        <h3 class="font-medium">Couverture & apports</h3>
-        <ul class="mt-2 text-sm text-slate-600 dark:text-slate-300 list-disc pl-5">
-          <li>Base V1 : 7092 lignes (2013–2024).</li>
-          <li>OpenAlex couvre &gt;70% ; ~20% hors Scopus.</li>
-          <li>Scripts : enrichissement HAL id / OA / APC.</li>
-        </ul>
+    <!-- ======================= METHODOLOGIE ======================= -->
+    <section id="methodo" class="max-w-6xl mx-auto px-4 py-12 border-t dark:border-slate-700">
+      <h2 id="methodologie" class="text-2xl md:text-3xl font-semibold text-brand-800 dark:text-brand-200">Méthodologie</h2>
+      <div class="mt-4 grid md:grid-cols-3 gap-4">
+        <article class="p-5 border rounded-2xl dark:border-slate-700">
+          <h3>Design</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Constitution d’une base maître, dédoublonnage par DOI, contrôle typologies.</p>
+        </article>
+        <article class="p-5 border rounded-2xl dark:border-slate-700">
+          <h3>Collecte</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">APIs OpenAlex/Scopus/HAL, ajout OA/licence via Unpaywall.</p>
+        </article>
+        <article class="p-5 border rounded-2xl dark:border-slate-700">
+          <h3>Analyse</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Croisements, vérifs manuelles, dépôts HAL, reporting intermédiaire.</p>
+        </article>
       </div>
-      <div class="p-5 border rounded-2xl dark:border-slate-700">
-        <h3 class="font-medium">Points de vigilance</h3>
-        <ul class="mt-2 text-sm text-slate-600 dark:text-slate-300 list-disc pl-5">
-          <li>BSO national : utile mais peu transparent.</li>
-          <li>Affiliations : éviter requêtes texte, préférer DOI.</li>
-          <li>Typologies : préférer type_crossref.</li>
-        </ul>
+    </section>
+
+    <!-- ======================= RESULTATS ======================= -->
+    <section id="resultats" class="max-w-6xl mx-auto px-4 py-12 border-t dark:border-slate-700">
+      <h2 class="text-2xl md:text-3xl font-semibold text-brand-800 dark:text-brand-200">Résultats clés</h2>
+      <div class="mt-6 grid md:grid-cols-2 gap-6">
+        <article class="p-5 border rounded-2xl dark:border-slate-700">
+          <h3>Couverture & apports</h3>
+          <ul class="mt-2 text-sm list-disc pl-5">
+            <li>Base V1 : 7092 lignes.</li>
+            <li>OpenAlex couvre &gt;70% ; ~20% hors Scopus.</li>
+            <li>Scripts : enrichissement HAL id / OA / APC.</li>
+          </ul>
+        </article>
+        <article class="p-5 border rounded-2xl dark:border-slate-700">
+          <h3>Points de vigilance</h3>
+          <ul class="mt-2 text-sm list-disc pl-5">
+            <li>BSO national : utile mais peu transparent.</li>
+            <li>Affiliations : éviter requêtes texte, préférer DOI.</li>
+            <li>Typologies : préférer type_crossref.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================= VISUALISATIONS ======================= -->
+<section id="visualisations" class="max-w-6xl mx-auto px-4 py-12 border-t dark:border-slate-700">
+  <h2 class="text-2xl md=text-3xl font-semibold">Galerie de figures</h2>
+  <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <figure class="group relative border rounded-xl overflow-hidden cursor-zoom-in dark:border-slate-700"
+            data-full="figures/figure2_methodo_mindmap.png"
+            data-caption="Figure 2 — Mindmap méthodologie">
+      <img src="figures/figure2_methodo_mindmap.png" alt="Mindmap méthodologie"
+           class="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+      <figcaption class="p-3 text-sm text-slate-600 dark:text-slate-300">Figure 2 — Méthodologie</figcaption>
+    </figure>
+
+    <figure class="group relative border rounded-xl overflow-hidden cursor-zoom-in dark:border-slate-700"
+            data-full="figures/figure7_comparatif_metas.png"
+            data-caption="Figure 7 — Comparatif Scopus/OpenAlex/HAL">
+      <img src="figures/figure7_comparatif_metas.png" alt="Comparatif métadonnées"
+           class="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+      <figcaption class="p-3 text-sm text-slate-600 dark:text-slate-300">Figure 7 — Comparatif métadonnées</figcaption>
+    </figure>
+  </div>
+</section>
+
+    <!-- ======================= LATEX ======================= -->
+ <section id="latex" class="max-w-6xl mx-auto px-4 py-12 border-t dark:border-slate-700 mathjax-process">
+    <h2 class="text-2xl md:text-3xl font-semibold">Formules (LaTeX)</h2>
+
+    <div class="mt-3 p-4 border rounded-xl text-sm text-slate-700 dark:text-slate-300 dark:border-slate-700">
+      <ul class="mt-2 space-y-2 list-disc pl-5">
+        <li><em>Taux d’Open Access</em> : sur 100 publications prises en compte, combien sont en libre accès. Deux périmètres : <strong>DOI</strong> seul (strict) vs <strong>DOI ∪ idHAL</strong> (plus large).</li>
+        <li><em>Couverture & apport</em> : on compare <strong>OpenAlex</strong> et <strong>Scopus</strong>. La <u>couverture</u> indique la part visible dans OpenAlex, l’<u>apport</u> montre ce qu’OpenAlex ajoute au-delà de Scopus.</li>
+        <li><em>Qualité du matching</em> : <strong>Précision</strong> (limiter le bruit), <strong>Rappel</strong> (ne pas rater de vrais cas), <strong>F1</strong> (équilibre des deux).</li>
+        <li><em>Dédoublonnage “DOI-first”</em> : si plusieurs lignes ont le même DOI, on garde la meilleure fiche et on fusionne les infos.</li>
+      </ul>
+      <div class="mt-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-800">
+        <strong>À éviter :</strong> comparer des taux OA calculés avec des <u>dénominateurs différents</u> (ex. DOI seul vs DOI∪idHAL). Toujours annoncer le périmètre.
       </div>
     </div>
-  </section>
 
-  <!-- ======================= VISUALISATIONS ======================= -->
-  <section id="visualisations" class="max-w-6xl mx-auto px-4 py-12 border-t dark:border-slate-700">
-    <h2 class="text-2xl md:text-3xl font-semibold">Galerie de figures</h2>
-    <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      <figure class="group border rounded-xl overflow-hidden cursor-zoom-in dark:border-slate-700" data-img="figures/figure2_methodo_mindmap.png" data-caption="Figure 2 — Mindmap méthodologie">
-        <img src="figures/figure2_methodo_mindmap.png" alt="Mindmap méthodologie" class="w-full aspect-video object-cover"/>
-        <figcaption class="p-3 text-sm text-slate-600 dark:text-slate-300">Figure 2 — Méthodologie</figcaption>
-      </figure>
-      <figure class="group border rounded-xl overflow-hidden cursor-zoom-in dark:border-slate-700" data-img="figures/figure7_comparatif_metas.png" data-caption="Figure 7 — Comparatif Scopus/OpenAlex/HAL">
-        <img src="figures/figure7_comparatif_metas.png" alt="Comparatif métadonnées" class="w-full aspect-video object-cover"/>
-        <figcaption class="p-3 text-sm text-slate-600 dark:text-slate-300">Figure 7 — Comparatif métadonnées</figcaption>
-      </figure>
+    <!-- Bloc 1 : Taux OA -->
+    <div class="mt-6 p-5 border rounded-2xl bg-slate-50 dark:bg-slate-800 dark:border-slate-700">
+      <h3 class="font-medium">1) Taux d’Open Access — périmètres explicités</h3>
+      <div class="mt-3 overflow-x-auto">
+        \[
+          \text{Taux OA}_{\mathrm{DOI}} = \frac{\#\,\mathrm{OA\ (DOI\ Crossref)}}{\#\,\mathrm{publi\ (DOI\ Crossref)}} \times 100\%
+        \]
+        \[
+          \text{Taux OA}_{\mathrm{DOI}\cup\mathrm{idHAL}} = \frac{\#\,\mathrm{OA\ (DOI\ Crossref\ \lor\ idHAL)}}{\#\,\mathrm{publi\ (DOI\ Crossref\ \lor\ idHAL)}} \times 100\%
+        \]
+      </div>
     </div>
-  </section>
 
-  <!-- ======================= LATEX ======================= -->
-  <section id="latex" class="max-w-6xl mx-auto px-4 py-12 border-t dark:border-slate-700">
-    <h2 class="text-2xl md:text-3xl font-semibold">Formules & pseudo-code (LaTeX)</h2>
-    <p class="mt-3 text-slate-600 dark:text-slate-300">Exemple : mesure d’OA et F1-score.</p>
-    <div class="mt-4 p-5 border rounded-2xl bg-slate-50 overflow-x-auto dark:bg-slate-800 dark:border-slate-700">
-      $$\\text{Taux OA} = \\frac{\\# OA}{\\# total} \\times 100\\% \\\qquad \\text{F1} = 2 \\\cdot \\\frac{PR \\\cdot RC}{PR+RC}$$
-      <pre class="mt-4 text-sm"><code>// Dédoublonnage par DOI
-for row in base:
-  group = groupby(row.DOI)
-  if len(group) > 1:
-    keep = prefer('Scopus', else_if='OpenAlex')
-    merge_metadata(keep, group)
+    <!-- Bloc 2 : Couverture & apport -->
+    <div class="mt-6 grid md:grid-cols-2 gap-4">
+      <div class="p-5 border rounded-2xl bg-slate-50 dark:bg-slate-800 dark:border-slate-700">
+        <h3 class="font-medium">2) Couverture & apport marginal (OpenAlex vs Scopus)</h3>
+        <div class="mt-3 overflow-x-auto">
+          \[ S=\text{Scopus},\quad A=\text{OpenAlex} \]
+          \[
+            \text{Couverture}(A) = \frac{|A|}{|S\cup A|},\qquad
+            \text{Apport}_{A\setminus S} = \frac{|A\setminus S|}{|S\cup A|}\times 100\%
+          \]
+        </div>
+      </div>
+
+      <!-- Bloc 3 : Qualité du matching -->
+      <div class="p-5 border rounded-2xl bg-slate-50 dark:bg-slate-800 dark:border-slate-700">
+        <h3 class="font-medium">3) Qualité du matching d’affiliation</h3>
+        <div class="mt-3 overflow-x-auto">
+          \[
+            \mathrm{Pr\acute{e}cision}=\tfrac{TP}{TP+FP},\quad
+            \mathrm{Rappel}=\tfrac{TP}{TP+FN},\quad
+            \mathrm{F1}=2\cdot\tfrac{\mathrm{Pr\acute{e}cision}\cdot\mathrm{Rappel}}{\mathrm{Pr\acute{e}cision}+\mathrm{Rappel}}
+          \]
+        </div>
+      </div>
+    </div>
+
+    <!-- Bloc 4 : Dédoublonnage -->
+    <div class="mt-6 p-5 border rounded-2xl bg-slate-50 dark:bg-slate-800 dark:border-slate-700">
+      <h3 class="font-medium">4) Règle de dédoublonnage « DOI-first »</h3>
+      <pre class="mt-3 text-sm overflow-x-auto"><code>// Dédoublonnage "DOI-first" et fusion des métadonnées
+for each DOI-group g:
+  if |g| > 1:
+    // Priorité de qualité : Scopus > OpenAlex > HAL (si présent)
+    keep = argmax_r score_metadata(r)
+    merge(keep, g \ {keep})  // union des champs non vides
   else:
-    keep = row
-append(keep)</code></pre>
+    keep = only(g)
+append(keep)
+
+// Exemple de score simpliste
+score_metadata(r) = w1*has_crossref_type(r) + w2*completeness(r) + w3*source_priority(r)
+</code></pre>
     </div>
   </section>
 
-  <!-- ======================= ANNEXES ======================= -->
-  <section id="annexes" class="max-w-6xl mx-auto px-4 py-12 border-t dark:border-slate-700">
-    <h2 class="text-2xl md:text-3xl font-semibold">Annexes & téléchargements</h2>
-    <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      <a href="files/rapport_stage_BO.pdf" class="annexe group">
-        <div class="p-5 h-full border rounded-2xl transition-colors group-hover:bg-blue-50 group-hover:border-blue-400 dark:border-slate-700 dark:group-hover:bg-slate-800 dark:group-hover:border-blue-500">
-          <h3 class="font-medium group-hover:text-blue-700 dark:group-hover:text-blue-300">PDF du rapport</h3>
-        </div>
-      </a>
-      <a href="files/note_etonnement.pdf" class="annexe group">
-        <div class="p-5 h-full border rounded-2xl transition-colors group-hover:bg-blue-50 group-hover:border-blue-400 dark:border-slate-700 dark:group-hover:bg-slate-800 dark:group-hover:border-blue-500">
-          <h3 class="font-medium group-hover:text-blue-700 dark:group-hover:text-blue-300">Note d'étonnement</h3>
-        </div>
-      </a>
-      <a href="files/bibliographie.bib" class="annexe group">
-        <div class="p-5 h-full border rounded-2xl transition-colors group-hover:bg-blue-50 group-hover:border-blue-400 dark:border-slate-700 dark:group-hover:bg-slate-800 dark:group-hover:border-blue-500">
-          <h3 class="font-medium group-hover:text-blue-700 dark:group-hover:text-blue-300">Bibliographie (.bib)</h3>
-        </div>
-      </a>
-    </div>
-  </section>
+    <!-- ======================= ANNEXES ======================= -->
+    <section id="annexes" class="max-w-6xl mx-auto px-4 py-12 border-t dark:border-slate-700">
+      <h2 class="text-2xl md:text-3xl font-semibold text-brand-800 dark:text-brand-200">Annexes & téléchargements</h2>
+      <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <a href="files/rapport_stage_BO.pdf" class="annexe group">
+          <div class="p-5 h-full border rounded-2xl transition-colors group-hover:bg-accent-50 group-hover:border-accent-400 dark:border-slate-700 dark:group-hover:bg-slate-800 dark:group-hover:border-accent-400">
+            <h3>PDF du rapport (M1 GSI)</h3>
+          </div>
+        </a>
+        <a href="files/data_scripts.zip" class="annexe group">
+          <div class="p-5 h-full border rounded-2xl transition-colors group-hover:bg-accent-50 group-hover:border-accent-400 dark:border-slate-700 dark:group-hover:bg-slate-800 dark:group-hover:border-accent-400">
+            <h3>Données & scripts</h3>
+          </div>
+        </a>
+        <a href="files/bibliographie.bib" class="annexe group">
+          <div class="p-5 h-full border rounded-2xl transition-colors group-hover:bg-accent-50 group-hover:border-accent-400 dark:border-slate-700 dark:group-hover:bg-slate-800 dark:group-hover:border-accent-400">
+            <h3>Bibliographie (.bib)</h3>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+  <!-- ========= fin contenu scopé ========= -->
 
   <!-- ======================= FOOTER ======================= -->
   <footer class="border-t dark:border-slate-700">
@@ -250,17 +383,29 @@ append(keep)</code></pre>
       <p>© 2025 — Rapport de stage M1 GSI — Justine Bouwy-Ounnough.</p>
     </div>
   </footer>
+  
+<!-- Lightbox / pop-up d’image -->
+<div id="lightbox"
+     class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/70 p-4"
+     role="dialog" aria-modal="true" aria-labelledby="lightboxCap" aria-hidden="true">
+  <button id="lightboxClose"
+          class="absolute top-4 right-4 px-3 py-1 rounded-full bg-white/90 text-slate-900 shadow hover:bg-white"
+          aria-label="Fermer (Esc)">×</button>
+  <figure class="max-w-5xl w-full">
+    <img id="lightboxImg" src="" alt="" class="w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl" />
+    <figcaption id="lightboxCap" class="mt-2 text-center text-slate-100 text-sm"></figcaption>
+  </figure>
+</div>
 
   <!-- ======================= BOUTON RETOUR HAUT ======================= -->
-  <button id="backToTop"
-    class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-slate-900 text-white flex items-center justify-center shadow-lg opacity-0 pointer-events-none transition-opacity dark:bg-slate-200 dark:text-slate-900"
-    aria-label="Retour en haut">
+  <button id="backToTop" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-brand-700 text-white flex items-center justify-center shadow-lg opacity-0 pointer-events-none transition-opacity dark:bg-brand-300 dark:text-slate-900" aria-label="Retour en haut">
     ↑
     <svg id="progressCircle" class="absolute inset-0 w-full h-full" viewBox="0 0 36 36">
       <path class="text-slate-400 dark:text-slate-600" stroke="currentColor" stroke-width="3" fill="none"
-        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
       <path id="progressPath" class="text-white dark:text-slate-900" stroke="currentColor" stroke-width="3" fill="none"
-        stroke-dasharray="100, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            stroke-dasharray="100, 100"
+            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
     </svg>
   </button>
 
@@ -283,18 +428,11 @@ append(keep)</code></pre>
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
 
-      // Met à jour la jauge circulaire
       progressPath.setAttribute('stroke-dasharray', `${scrollPercent},100`);
-
-      // Affiche le bouton après 200px de scroll
-      if (scrollTop > 200) {
-        backToTop.classList.remove('opacity-0', 'pointer-events-none');
-      } else {
-        backToTop.classList.add('opacity-0', 'pointer-events-none');
-      }
+      if (scrollTop > 200) backToTop.classList.remove('opacity-0', 'pointer-events-none');
+      else backToTop.classList.add('opacity-0', 'pointer-events-none');
     });
 
-    // Clique = remonte en haut
     backToTop.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
