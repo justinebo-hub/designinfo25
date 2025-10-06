@@ -29,7 +29,6 @@ designinfo25/
 ├── README.md                 # Présentation du projet (vous êtes ici)
 │
 ├── figures/                  # Figures et visuels du rapport
-│   ├── figure1_bso_selection.png
 │   ├── figure2_methodo_mindmap.png
 │   └── figure7_comparatif_metas.png
 │
