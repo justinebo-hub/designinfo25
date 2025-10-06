@@ -35,7 +35,7 @@ designinfo25/
 └── files/                    # Annexes et documents associés
     ├── rapport_stage_BO.pdf
     ├── favicon.png
-    ├── data_scripts.zip
+    ├── note_etonnement.pdf
     └── bibliographie.bib
 ```
 
